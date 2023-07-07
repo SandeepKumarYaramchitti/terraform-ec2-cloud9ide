@@ -20,11 +20,23 @@ provider "aws" {
   region = "us-east-1"
 }
 
+data "aws_subnet" "existing_subnet" {
+  filter {
+    name   = "vpc-id"
+    values = ["vpc-048c23df4f54370a4"] # Replace with the ID of the VPC
+  }
+
+  filter {
+    name   = "tag:Name"
+    values = ["project-subnet-public1-us-east-1a"] # Replace with the desired subnet name
+  }
+}
+
 resource "aws_cloud9_environment_ec2" "cloud9_instance" {
   name                        = "cloud9_instance"
   instance_type               = "t2.medium"
   automatic_stop_time_minutes = 30
-  subnet_id                   = "subnet-053560d78725d4149"
+  subnet_id                   = data.aws_subnet.existing_subnet.id
 
   tags = {
     Terraform = "true"
