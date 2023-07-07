@@ -51,6 +51,7 @@ data "aws_security_group" "cloud9_secgroup" {
     ]
   }
 }
+# Allow public access to port 8080
 resource "aws_security_group_rule" "tcp_8080" {
   type              = "ingress"
   from_port         = 8080
