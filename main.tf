@@ -32,6 +32,7 @@ data "aws_subnet" "existing_subnet" {
   }
 }
 
+# Set uo Cloud9 IDE
 resource "aws_cloud9_environment_ec2" "cloud9_instance" {
   name                        = "cloud9_instance"
   instance_type               = "t2.medium"
@@ -51,6 +52,7 @@ data "aws_security_group" "cloud9_secgroup" {
     ]
   }
 }
+# Allow public access to port 8080
 resource "aws_security_group_rule" "tcp_8080" {
   type              = "ingress"
   from_port         = 8080
