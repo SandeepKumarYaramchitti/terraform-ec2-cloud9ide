@@ -17,8 +17,8 @@ data "aws_subnet" "existing_subnet" {
 }
 
 # Set uo Cloud9 IDE
-resource "aws_cloud9_environment_ec2" "cloud9_instance" {
-  name                        = "cloud9_instance"
+resource "aws_cloud9_environment_ec2" "cloudysky_cloud9_instance" {
+  name                        = "cloudysky_cloud9_instance"
   instance_type               = "t2.medium"
   automatic_stop_time_minutes = 30
   subnet_id                   = data.aws_subnet.existing_subnet.id
@@ -30,12 +30,11 @@ resource "aws_cloud9_environment_ec2" "cloud9_instance" {
 }
 
 # Get the security group ID of the Cloud9 instance
-
 data "aws_security_group" "cloud9_secgroup" {
   filter {
     name = "tag:aws:cloud9:environment"
     values = [
-      aws_cloud9_environment_ec2.cloud9_instance.id
+      aws_cloud9_environment_ec2.cloudysky_cloud9_instance.id
     ]
   }
 }
