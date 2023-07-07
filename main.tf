@@ -29,6 +29,8 @@ resource "aws_cloud9_environment_ec2" "cloud9_instance" {
   }
 }
 
+# Get the security group ID of the Cloud9 instance
+
 data "aws_security_group" "cloud9_secgroup" {
   filter {
     name = "tag:aws:cloud9:environment"
