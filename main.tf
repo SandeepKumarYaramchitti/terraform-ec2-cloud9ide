@@ -32,6 +32,7 @@ data "aws_subnet" "existing_subnet" {
   }
 }
 
+# Set uo Cloud9 IDE
 resource "aws_cloud9_environment_ec2" "cloud9_instance" {
   name                        = "cloud9_instance"
   instance_type               = "t2.medium"
