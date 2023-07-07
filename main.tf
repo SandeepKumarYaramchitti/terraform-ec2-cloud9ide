@@ -1,20 +1,4 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.0.0"
-    }
-  }
-  required_version = ">= 1.1.0"
 
-  cloud {
-    organization = "cloudysky"
-
-    workspaces {
-      name = "terraform-sandeep-aws"
-    }
-  }
-}
 
 provider "aws" {
   region = "us-east-1"
@@ -40,7 +24,8 @@ resource "aws_cloud9_environment_ec2" "cloud9_instance" {
   subnet_id                   = data.aws_subnet.existing_subnet.id
 
   tags = {
-    Terraform = "true"
+    Environment = "dev"
+    Owner       = "CloudySky"
   }
 }
 
@@ -53,17 +38,13 @@ data "aws_security_group" "cloud9_secgroup" {
   }
 }
 # Allow public access to port 8080
-resource "aws_security_group_rule" "tcp_8080" {
+resource "aws_security_group_rule" "cloud9_inbound" {
   type              = "ingress"
   from_port         = 8080
   to_port           = 8080
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
   security_group_id = data.aws_security_group.cloud9_secgroup.id
 }
 
 
-output "cloud9_url" {
-  value = "https://${var.region}.console.aws.amazon.com/cloud9/ide/${aws_cloud9_environment_ec2.cloud9_instance.id}"
-}
